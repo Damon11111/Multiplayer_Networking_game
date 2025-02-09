@@ -1,11 +1,13 @@
 # cs426_Kesler_Semih_Asgn2
+Team Memebers:
+Semih Kesler, Yuqing Wu, Junaid Ali
 
 Asset Attribution:
-Player Models:
-https://sketchfab.com/3d-models/low-poly-police-and-robber-animated-b2a9ae4084184c8f8f7cbc00caf12d9c
+  Player Controller:
+  https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884
 
-Player Controller
-https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884
+  Team Manager:
+  https://discussions.unity.com/t/how-to-assign-a-team-to-the-player-prefab-when-it-connects-to-the-server/586167
 
-Player Rigging:
-https://www.mixamo.com/#/?page=1&type=Motion%2CMotionPack
+  Player Rigging:
+  https://www.mixamo.com/#/?page=1&type=Motion%2CMotionPack
