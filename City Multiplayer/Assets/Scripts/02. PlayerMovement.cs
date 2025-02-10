@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 // adding namespaces
 using Unity.Netcode;
+using System;
 // because we are using the NetworkBehaviour class
 // NewtorkBehaviour class is a part of the Unity.Netcode namespace
 // extension of MonoBehaviour that has functions related to multiplayer
 public class PlayerMovement : NetworkBehaviour
 {
-    public List<Color> colors = new List<Color>();
-
     // getting the reference to the prefab
     [SerializeField]
     private GameObject spawnedPrefab;
@@ -25,12 +24,14 @@ public class PlayerMovement : NetworkBehaviour
     [SerializeField] public Camera playerCamera;
 
     private TeamAssigner teamAssigner;
+    TeamManager.Teams playerTeam;
 
     // Start is called before the first frame update
     void Start()
     {
         teamAssigner = GetComponent<TeamAssigner>();
-        TeamManager.Teams playerTeam = teamAssigner.getTeam();
+        playerTeam = teamAssigner.getTeam();
+        Debug.Log("Player Team: " + playerTeam.ToString());
     }
     // Update is called once per frame
     void Update()
@@ -70,7 +71,10 @@ public class PlayerMovement : NetworkBehaviour
     // we will change the color of the objects
     public override void OnNetworkSpawn()
     {
-        GetComponent<MeshRenderer>().material.color = colors[(int)OwnerClientId];
+        if (playerTeam == TeamManager.Teams.Courier)
+            GetComponent<MeshRenderer>().material.color = Color.blue;
+        else
+            GetComponent<MeshRenderer>().material.color = Color.red;
 
         // check if the player is the owner of the object
         if (!IsOwner) return;
