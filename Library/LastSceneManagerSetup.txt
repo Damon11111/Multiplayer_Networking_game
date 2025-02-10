@@ -1,0 +1,5 @@
+sceneSetups:
+- path: Assets/Loading Games/Toon City Pack/Demo/Scenes/city.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
