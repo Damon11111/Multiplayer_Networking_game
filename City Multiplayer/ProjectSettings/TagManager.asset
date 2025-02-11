@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Courier
   - Robber
+  - Mailbox
   layers:
   - Default
   - TransparentFX

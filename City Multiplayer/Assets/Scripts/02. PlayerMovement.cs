@@ -33,6 +33,8 @@ public class PlayerMovement : NetworkBehaviour
     private Transform spawn;
     private Renderer playerRenderer;
 
+    private MailboxManager mailboxManager;
+
     //TeamManager.Instance.deliverServerRpc(); - Delivers packages updates counter
     //TeamManager.Instance.stolenServerRpc(); - Delivers packages updates counter
 
@@ -41,6 +43,10 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         TeamManager.Instance.setTeamServerRpc();
+        if (IsOwner)
+        {
+            mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
+        }
     }
     // Update is called once per frame
     void Update()
@@ -73,6 +79,25 @@ public class PlayerMovement : NetworkBehaviour
             // call the BulletSpawningServerRpc method
             // as client can not spawn objects
             BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation);
+        }
+
+        // Add delivery check for E key
+        if (Input.GetKeyDown(KeyCode.E) && playerTeam == "Courier")
+        {
+            Debug.Log("E key pressed - attempting delivery");
+            if (mailboxManager != null)
+            {
+                if (mailboxManager.TryDeliverPackage(transform.position))
+                {
+                    Debug.Log("Delivery successful - returning to spawn");
+                    setSpawnServerRpc();
+                }
+            }
+            else
+            {
+                Debug.LogError("MailboxManager not found!");
+                mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
+            }
         }
     }
 
