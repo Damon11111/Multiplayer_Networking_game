@@ -17,17 +17,15 @@ chase, stall, and steal from the courier to win
 Serious Objective: Show how data transfers can be vulnerable to outside interference or theft and why protection against them is important
 
 Procedures:
-Who - 1 Courier and 1 Robber
-What - Delivery player can deliver to target mailboxes when close and robber can steal when close to opposing player both can throw rocks to stun opposing player 
-Where - City
-When - Couriers must start at spawn for each delivery
-How - Interacting with target mailbox or player in close proximety
-
-Rules:  Players interact with eachother by throw rocks, robbers can steal when close to courier, couriers can deliver when close to target mailbox
+  Who - 1 Courier and 1 Robber
+  What - Delivery player can deliver to target mailboxes when close and robber can steal when close to opposing player both can throw rocks to stun opposing player 
+  Where - City
+  When - Couriers must start at spawn for each delivery
+  How - Interacting with target mailbox or player in close proximety
+  Rules:  Players interact with eachother by throw rocks, robbers can steal when close to courier, couriers can deliver when close to target mailbox
 
 Resourses:
-  Asset Attribution:
-  
+
     Player Controller:
       https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884   
       
