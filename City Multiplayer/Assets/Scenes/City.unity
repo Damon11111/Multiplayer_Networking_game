@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 1, g: 1, b: 1, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.005
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.43867922, g: 1, b: 0.5271828, a: 1}
@@ -17641,7 +17641,6 @@ MonoBehaviour:
   startPosition: {x: 0, y: 0, z: 0}
   deliveryRange: 2
   selectionIndicatorPrefab: {fileID: 1781072806978053012, guid: eaeb0b49bc3064254bee1f3d3e0ff083, type: 3}
-  packagesRemainingText: {fileID: 0}
 --- !u!4 &835754773
 Transform:
   m_ObjectHideFlags: 0
@@ -49310,7 +49309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2493986629670077418, guid: 92d19ffaf40814a1aa80a995bec30bfd, type: 3}
       propertyPath: m_text
-      value: 'Packages Remaining: 12'
+      value: 'Packages Remaining: 13'
       objectReference: {fileID: 0}
     - target: {fileID: 6120239659254289305, guid: 92d19ffaf40814a1aa80a995bec30bfd, type: 3}
       propertyPath: m_Name

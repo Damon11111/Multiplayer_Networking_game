@@ -19,18 +19,22 @@ public class MailboxManager : NetworkBehaviour
     [SerializeField] private GameObject selectionIndicatorPrefab;
     private GameObject currentIndicator;
 
-    [SerializeField] private TMPro.TextMeshProUGUI packagesRemainingText;
-    private NetworkVariable<int> packagesRemaining = new NetworkVariable<int>(13);
     private bool hasInitialized = false;
     private const int TOTAL_MAILBOXES = 13;
 
+    public static MailboxManager Instance { get; private set; }
+
+    private void Awake()
+    {   //Only single instance of mailbox manager
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
+    }
+
     void Start()
     {
-        if (packagesRemainingText == null)
-        {
-            packagesRemainingText = GameObject.Find("PackagesRemaining").GetComponent<TMPro.TextMeshProUGUI>();
-        }
-        UpdatePackagesText(packagesRemaining.Value);
+
     }
 
     public override void OnNetworkSpawn()
@@ -44,35 +48,8 @@ public class MailboxManager : NetworkBehaviour
             SelectNewRandomMailboxServerRpc();
             hasInitialized = true;
         }
-
-        if (packagesRemainingText == null)
-        {
-            packagesRemainingText = GameObject.Find("PackagesRemaining").GetComponent<TMPro.TextMeshProUGUI>();
-        }
-        UpdatePackagesText(TOTAL_MAILBOXES);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void UpdatePackagesRemainingServerRpc(int newValue)
-    {
-        packagesRemaining.Value = newValue;
-        UpdatePackagesRemainingClientRpc(newValue);
-    }
-
-    [ClientRpc]
-    private void UpdatePackagesRemainingClientRpc(int value)
-    {
-        UpdatePackagesText(value);
-    }
-
-    private void UpdatePackagesText(int count)
-    {
-        if (packagesRemainingText != null)
-        {
-            packagesRemainingText.text = $"Packages Remaining: {count}";
-            Debug.Log($"Updated packages remaining to: {count}");
-        }
-    }
 
     [ServerRpc]
     private void SelectNewRandomMailboxServerRpc()
@@ -81,10 +58,6 @@ public class MailboxManager : NetworkBehaviour
         {
             Debug.Log("All mailboxes used, resetting pool");
             ResetUnusedMailboxes();
-        }
-        else 
-        {
-            packagesRemaining.Value = unusedMailboxes.Count - 1;
         }
 
         if (unusedMailboxes.Count == 0)
@@ -190,7 +163,6 @@ public class MailboxManager : NetworkBehaviour
                     ResetUnusedMailboxes();
                 }
                 
-                UpdatePackagesRemainingServerRpc(remaining);
                 SelectNewRandomMailboxServerRpc();
             }
             return true;
@@ -204,9 +176,5 @@ public class MailboxManager : NetworkBehaviour
         unusedMailboxes.Clear();
         unusedMailboxes.AddRange(mailboxes);
         Debug.Log($"Reset mailbox pool. Now have {unusedMailboxes.Count} mailboxes");
-        if (IsHost)
-        {
-            UpdatePackagesRemainingServerRpc(TOTAL_MAILBOXES);
-        }
     }
 }
