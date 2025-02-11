@@ -11,8 +11,8 @@ Game Description: 1 Courier must deliever all of their 13 packages to each mailb
 
 Player Interaction Pattern: Player vs Player
 
-Objective: Capture, Outwit - One team goal is to protect and deliver packages successfully the others goal is to intercept them using strategy 
-to either deliver or steal the most packages
+Objective: Capture, Outwit - Courier tries to avoid and block robber from steal and deliver all their packages to mailboxes to win and Robber must attempt to
+chase, stall, and steal from the courier to win
 
 Serious Objective: Show how data transfers can be vulnerable to outside interference or theft and why protection against them is important
 
