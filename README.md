@@ -27,10 +27,13 @@ Rules:  Players interact with eachother by throw rocks, robbers can steal when c
 
 Resourses:
   Asset Attribution:
+  
     Player Controller:
       https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884   
+      
     City:
       https://assetstore.unity.com/packages/3d/environments/urban/toon-city-pack-234785
+      
     Script References:
       https://youtu.be/yhlyoQ2F-NM?t=139 - Singleton Instance (Manager Scripts)
       https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/ NetworkVariable (All)
