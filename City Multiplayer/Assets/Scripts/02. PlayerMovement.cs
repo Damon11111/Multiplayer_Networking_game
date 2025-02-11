@@ -33,6 +33,8 @@ public class PlayerMovement : NetworkBehaviour
     private Transform spawn;
     private Renderer playerRenderer;
 
+    private MailboxManager mailboxManager;
+
     //TeamManager.Instance.deliverServerRpc(); - Delivers packages updates counter
     //TeamManager.Instance.stolenServerRpc(); - Delivers packages updates counter
 
@@ -41,6 +43,10 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         TeamManager.Instance.setTeamServerRpc();
+        if (IsOwner)
+        {
+            mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
+        }
     }
     // Update is called once per frame
     void Update()
@@ -79,10 +85,18 @@ public class PlayerMovement : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.E) && playerTeam == "Courier")
         {
             Debug.Log("E key pressed - attempting delivery");
-            if (MailboxManager.Instance.TryDeliverPackage(transform.position))
+            if (mailboxManager != null)
             {
-                Debug.Log("Delivery successful - returning to spawn");
-                setSpawnServerRpc();
+                if (mailboxManager.TryDeliverPackage(transform.position))
+                {
+                    Debug.Log("Delivery successful - returning to spawn");
+                    setSpawnServerRpc();
+                }
+            }
+            else
+            {
+                Debug.LogError("MailboxManager not found!");
+                mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
             }
         }
     }
@@ -151,7 +165,9 @@ public class PlayerMovement : NetworkBehaviour
     }
 
 
+    // need to add the [ServerRPC] attribute
     [ServerRpc]
+    // method name must end with ServerRPC
     private void BulletSpawningServerRpc(Vector3 position, Quaternion rotation)
     {
         // call the BulletSpawningClientRpc method to locally create the bullet on all clients
@@ -165,5 +181,9 @@ public class PlayerMovement : NetworkBehaviour
         newBullet.GetComponent<Rigidbody>().linearVelocity += Vector3.up * 2;
         newBullet.GetComponent<Rigidbody>().AddForce(newBullet.transform.forward * 1500);
         // newBullet.GetComponent<NetworkObject>().Spawn(true);
+       
+
+        Destroy(newBullet, 5f);
     }
+
 }

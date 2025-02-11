@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/CityMulti.unity
     guid: 10cf8b55d11bbf4479d3e1505ea8bdb3
   - enabled: 1
-    path: Assets/Scenes/city.unity
+    path: Assets/Scenes/City.unity
     guid: e5a6424adbdae42e7878270378321267
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}

@@ -12,8 +12,6 @@ public class TeamManager : NetworkBehaviour
     public NetworkVariable<int> totalPackages = new NetworkVariable<int>(13);
     public NetworkVariable<int> whoWon = new NetworkVariable<int>(0);
     private const int TOTAL_MAILBOXES = 13;
-    [SerializeField] private int setPackages;
-
 
     [SerializeField] private TMP_Text courierText;
     [SerializeField] private TMP_Text robberText;
@@ -28,31 +26,18 @@ public class TeamManager : NetworkBehaviour
             Instance = this;
     }
 
-    private void Start()
-    {
-        totalPackages.Value = setPackages;
-        setPackagesServerRpc();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void setPackagesServerRpc()
-    {
-        totalPackages.Value = setPackages;
-    }
-
     [ServerRpc (RequireOwnership = false)]
     public void deliverServerRpc(){
         Debug.Log($"Before delivery: {totalPackages.Value}");
         totalPackages.Value--;
         Debug.Log($"After delivery: {totalPackages.Value}");
-
+        
         if (totalPackages.Value <= 0)
         {
             whoWon.Value = 1; // Set Courier win condition
             // Don't reset the count, let it stay at 0
         }
     }
-
 
     [ServerRpc (RequireOwnership = false)]
     public void stolenServerRpc(){
