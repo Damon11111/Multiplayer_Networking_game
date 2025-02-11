@@ -4,11 +4,17 @@ using UnityEngine;
 // adding namespaces
 using Unity.Netcode;
 using System;
+using System.Runtime.Serialization.Json;
+using TMPro;
+
 // because we are using the NetworkBehaviour class
 // NewtorkBehaviour class is a part of the Unity.Netcode namespace
 // extension of MonoBehaviour that has functions related to multiplayer
 public class PlayerMovement : NetworkBehaviour
 {
+    public GameObject courierSpawn;
+    public GameObject robberSpawn;
+
     // getting the reference to the prefab
     [SerializeField]
     private GameObject spawnedPrefab;
@@ -23,15 +29,18 @@ public class PlayerMovement : NetworkBehaviour
     // reference to the camera
     [SerializeField] public Camera playerCamera;
 
-    private TeamAssigner teamAssigner;
-    TeamManager.Teams playerTeam;
+    private string playerTeam;
+    private Transform spawn;
+    private Renderer playerRenderer;
+
+    //TeamManager.Instance.deliverServerRpc(); - Delivers packages updates counter
+    //TeamManager.Instance.stolenServerRpc(); - Delivers packages updates counter
+
 
     // Start is called before the first frame update
     void Start()
     {
-        teamAssigner = GetComponent<TeamAssigner>();
-        playerTeam = teamAssigner.getTeam();
-        Debug.Log("Player Team: " + playerTeam.ToString());
+        TeamManager.Instance.setTeamServerRpc();
     }
     // Update is called once per frame
     void Update()
@@ -67,22 +76,69 @@ public class PlayerMovement : NetworkBehaviour
         }
     }
 
-    // this method is called when the object is spawned
-    // we will change the color of the objects
     public override void OnNetworkSpawn()
     {
-        if (playerTeam == TeamManager.Teams.Courier)
-            GetComponent<MeshRenderer>().material.color = Color.blue;
-        else
-            GetComponent<MeshRenderer>().material.color = Color.red;
+        playerRenderer = GetComponent<Renderer>();
 
-        // check if the player is the owner of the object
-        if (!IsOwner) return;
-        // if the player is the owner of the object
-        // enable the camera and the audio listener
-        audioListener.enabled = true;
-        playerCamera.enabled = true;
+        bool whichTeam = OwnerClientId % 2 == 0 ? true : false; 
+
+        if (whichTeam){
+            if (playerRenderer != null)
+                playerRenderer.material.color = Color.blue;
+            spawn = courierSpawn.transform;
+            playerTeam = "Courier";
+            Debug.Log(playerTeam + " Joined The Game");
+        }
+        else{
+            if (playerRenderer != null)
+                playerRenderer.material.color = Color.red;
+            spawn = robberSpawn.transform;
+            playerTeam = "Robber";
+            Debug.Log(playerTeam + " Joined The Game");
+        }
+
+
+        if (IsServer){
+            setSpawnServerRpc();
+        }
+
+        if (IsOwner){
+            audioListener.enabled = true;
+            playerCamera.enabled = true;
+        }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void setColorServerRpc(Color color)
+    {
+        playerRenderer.material.color = color;
+        setColorsClientRpc(color);
+    }
+
+    [ClientRpc]
+    public void setColorsClientRpc(Color color)
+    {
+        playerRenderer.material.color = color;
+    }
+
+
+
+    [ServerRpc(RequireOwnership = false)]
+    public void setSpawnServerRpc()
+    {
+        transform.position = spawn.position;
+        transform.rotation = spawn.rotation;
+        setSpawnClientRpc();
+    }
+    [ClientRpc]
+    public void setSpawnClientRpc()
+    {
+        if (!IsOwner){
+            transform.position = spawn.position;
+            transform.rotation = spawn.rotation;
+        }
+    }
+
 
     // need to add the [ServerRPC] attribute
     [ServerRpc]
