@@ -1,17 +1,45 @@
 # cs426_Kesler_Semih_Asgn2
-Team Memebers:
-Semih Kesler, Yuqing Wu, Junaid Ali
 
-Asset Attribution:
-  Player Controller:
-    https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884
+Team Memebers: Semih Kesler, Yuqing Wu, Junaid Ali
 
-  Team Manager:
-    https://youtu.be/yhlyoQ2F-NM?t=139 - Only one instance Singleton
-    https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/
-    https://docs.unity3d.com/Packages/com.unity.netcode.gameobjects@1.7/api/Unity.Netcode.RuntimeTests.SpawnTest.OnNetworkSpawn.html
-    https://learn.unity.com/tutorial/enumerations#
-    https://www.reddit.com/r/Unity3D/comments/10dm1w7/i_am_having_difficulty_understanding/ - OnValueChanged
+Group Number: 11
 
-  Player Rigging:
-    https://www.mixamo.com/#/?page=1&type=Motion%2CMotionPack
+Title: Courier vs Robber
+
+Game Description: 1 Courier must deliever all of their 13 packages to each mailbox in a row without getting caught to win
+1 Robber must chase and stop the courier 
+
+Player Interaction Pattern: Player vs Player
+
+Objective: Capture, Outwit - One team goal is to protect and deliver packages successfully the others goal is to intercept them using strategy 
+to either deliver or steal the most packages
+
+Serious Objective: Show how data transfers can be vulnerable to outside interference or theft and why protection against them is important
+
+Procedures:
+Who - 1 Courier and 1 Robber
+What - Delivery player can deliver to target mailboxes when close and robber can steal when close to opposing player both can throw rocks to stun opposing player 
+Where - City
+When - Couriers must start at spawn for each delivery
+How - Interacting with target mailbox or player in close proximety
+
+Rules:  Players interact with eachother by throw rocks, robbers can steal when close to courier, couriers can deliver when close to target mailbox
+
+Resourses:
+  Asset Attribution:
+    Player Controller:
+      https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884   
+    City:
+      https://assetstore.unity.com/packages/3d/environments/urban/toon-city-pack-234785
+    Script References:
+      https://youtu.be/yhlyoQ2F-NM?t=139 - Singleton Instance (Manager Scripts)
+      https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/ NetworkVariable (All)
+      https://docs.unity3d.com/Packages/com.unity.netcode.gameobjects@1.7/api/Unity.Netcode.RuntimeTests.SpawnTest.OnNetworkSpawn.html NetworkSpawn (All)
+      https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/message-system/serverrpc/ ServerRpc (All)
+      https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/message-system/clientrpc/ ClientRpc (All)
+      
+Non-plain-vanilla procedure/rule: Players can throw rocks at eachother to stun them temporarily
+
+Test Question for Serious Objective: Why is it important to protect package deliveries. What can happen if you don't?
+Expected Correct Answer for Serious Objective: Data Streams(Packages) are vulnerable to interference and stealing and should be protected to prevent it
+
