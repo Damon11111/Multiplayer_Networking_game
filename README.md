@@ -24,20 +24,17 @@ Procedures:<br>
   How - Interacting with target mailbox or player in close proximety<br>
   Rules:  Players interact with eachother by throw rocks, robbers can steal when close to courier, couriers can deliver when close to target mailbox<br>
 
-Resourses:
-
-    Player Controller:
-      https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884   
-      
-    City:
-      https://assetstore.unity.com/packages/3d/environments/urban/toon-city-pack-234785
-      
-    Script References:
-      https://youtu.be/yhlyoQ2F-NM?t=139 - Singleton Instance (Manager Scripts)
-      https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/ NetworkVariable (All)
-      https://docs.unity3d.com/Packages/com.unity.netcode.gameobjects@1.7/api/Unity.Netcode.RuntimeTests.SpawnTest.OnNetworkSpawn.html NetworkSpawn (All)
-      https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/message-system/serverrpc/ ServerRpc (All)
-      https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/message-system/clientrpc/ ClientRpc (All)
+Resourses:<br>
+    Player Controller:<br>
+      https://assetstore.unity.com/packages/3d/characters/modular-first-person-controller-189884 <br> 
+    City:<br>
+      https://assetstore.unity.com/packages/3d/environments/urban/toon-city-pack-234785<br>
+    Script References:<br>
+      https://youtu.be/yhlyoQ2F-NM?t=139 - Singleton Instance (Manager Scripts)<br>
+      https://docs-multiplayer.unity3d.com/netcode/current/basics/networkvariable/ NetworkVariable (All)<br>
+      https://docs.unity3d.com/Packages/com.unity.netcode.gameobjects@1.7/api/Unity.Netcode.RuntimeTests.SpawnTest.OnNetworkSpawn.html NetworkSpawn (All)<br>
+      https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/message-system/serverrpc/ ServerRpc (All)<br>
+      https://docs-multiplayer.unity3d.com/netcode/current/advanced-topics/message-system/clientrpc/ ClientRpc (All)<br>
       
 Non-plain-vanilla procedure/rule: Players can throw rocks at eachother to stun them temporarily
 
