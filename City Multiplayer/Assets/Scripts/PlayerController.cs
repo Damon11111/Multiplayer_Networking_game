@@ -7,22 +7,7 @@ public class PlayerController : NetworkBehaviour
     
     public override void OnNetworkSpawn()
     {
-        base.OnNetworkSpawn();
-        Debug.Log($"PlayerController spawned. IsHost: {IsHost}");
-        FindMailboxManager();
-    }
-
-    private void FindMailboxManager()
-    {
-        mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
-        if (mailboxManager == null)
-        {
-            Debug.LogError("MailboxManager not found in scene!");
-        }
-        else
-        {
-            Debug.Log("MailboxManager reference set successfully");
-        }
+        mailboxManager = FindObjectOfType<MailboxManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,31 +28,15 @@ public class PlayerController : NetworkBehaviour
 
     private void Update()
     {
-        if (!IsHost)
-        {
-            return;
-        }
+        if (!IsHost) return;
 
-        // Check for delivery input
+        // Check for delivery input (e.g., E key)
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Debug.Log("E key pressed in PlayerController");
-            if (mailboxManager != null)
+            if (mailboxManager.TryDeliverPackage(transform.position))
             {
-                Vector3 currentPos = transform.position;
-                Vector3 mailboxPos = mailboxManager.GetCurrentMailboxPosition();
-                Debug.Log($"Player position: {currentPos}");
-                Debug.Log($"Current mailbox position: {mailboxPos}");
-                
-                if (mailboxManager.TryDeliverPackage(currentPos))
-                {
-                    Debug.Log("Delivery successful!");
-                }
-            }
-            else
-            {
-                Debug.LogError("MailboxManager reference is null! Attempting to find it again...");
-                FindMailboxManager();
+                // Package delivered successfully
+                // Add visual/audio feedback here
             }
         }
     }

@@ -1025,7 +1025,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &-1475747041600057072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,7 +1119,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   courierSpawn: {fileID: 5756089528043508140, guid: edd985555255f5946a9b4df2a3b08f37, type: 3}
   robberSpawn: {fileID: 7497611788481150947, guid: eab4c3afdb1898b4391847becdd36235, type: 3}
-  spawnedPrefab: {fileID: 1781072806978053012, guid: ac9716790d99c684f9034ee7ee7c843c, type: 3}
+  spawnedPrefab: {fileID: 8770725715679840001}
   cannon: {fileID: 5880775504548831086}
   bullet: {fileID: 3966675656074937483, guid: b6c87941c9ed89b4588ba11b419e86a3, type: 3}
   audioListener: {fileID: 9095079408883154444}

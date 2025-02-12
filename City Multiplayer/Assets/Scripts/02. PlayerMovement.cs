@@ -33,20 +33,16 @@ public class PlayerMovement : NetworkBehaviour
     private Transform spawn;
     private Renderer playerRenderer;
 
-    private MailboxManager mailboxManager;
-
     //TeamManager.Instance.deliverServerRpc(); - Delivers packages updates counter
     //TeamManager.Instance.stolenServerRpc(); - Delivers packages updates counter
 
+    // Add this near your other private variables
+    private bool gameEnded = false;
 
     // Start is called before the first frame update
     void Start()
     {
         TeamManager.Instance.setTeamServerRpc();
-        if (IsOwner)
-        {
-            mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
-        }
     }
     // Update is called once per frame
     void Update()
@@ -79,25 +75,6 @@ public class PlayerMovement : NetworkBehaviour
             // call the BulletSpawningServerRpc method
             // as client can not spawn objects
             BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation);
-        }
-
-        // Add delivery check for E key
-        if (Input.GetKeyDown(KeyCode.E) && playerTeam == "Courier")
-        {
-            Debug.Log("E key pressed - attempting delivery");
-            if (mailboxManager != null)
-            {
-                if (mailboxManager.TryDeliverPackage(transform.position))
-                {
-                    Debug.Log("Delivery successful - returning to spawn");
-                    setSpawnServerRpc();
-                }
-            }
-            else
-            {
-                Debug.LogError("MailboxManager not found!");
-                mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
-            }
         }
     }
 
@@ -181,9 +158,36 @@ public class PlayerMovement : NetworkBehaviour
         newBullet.GetComponent<Rigidbody>().linearVelocity += Vector3.up * 2;
         newBullet.GetComponent<Rigidbody>().AddForce(newBullet.transform.forward * 1500);
         // newBullet.GetComponent<NetworkObject>().Spawn(true);
-       
-
-        Destroy(newBullet, 5f);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!IsServer || gameEnded) return;
+
+        // Check if this is a player-player collision
+        PlayerMovement otherPlayer = collision.gameObject.GetComponent<PlayerMovement>();
+        if (otherPlayer == null) return;
+
+        // Check if it's a Robber catching a Courier
+        if (playerTeam == "Robber" && otherPlayer.playerTeam == "Courier")
+        {
+            // Call TeamManager's stolenServerRpc to handle the game over state
+            TeamManager.Instance.stolenServerRpc();
+            EndGameServerRpc(false); // Robber wins
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void EndGameServerRpc(bool courierWon)
+    {
+        gameEnded = true;
+        EndGameClientRpc(courierWon);
+    }
+
+    [ClientRpc]
+    private void EndGameClientRpc(bool courierWon)
+    {
+        // The UI update will now be handled by TeamManager.stolenServerRpc()
+        enabled = false; // Disable player movement
+    }
 }

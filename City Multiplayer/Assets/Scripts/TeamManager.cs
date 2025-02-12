@@ -11,7 +11,6 @@ public class TeamManager : NetworkBehaviour
     public NetworkVariable<int> robberCount = new NetworkVariable<int>(0);
     public NetworkVariable<int> totalPackages = new NetworkVariable<int>(13);
     public NetworkVariable<int> whoWon = new NetworkVariable<int>(0);
-    private const int TOTAL_MAILBOXES = 13;
 
     [SerializeField] private TMP_Text courierText;
     [SerializeField] private TMP_Text robberText;
@@ -28,14 +27,9 @@ public class TeamManager : NetworkBehaviour
 
     [ServerRpc (RequireOwnership = false)]
     public void deliverServerRpc(){
-        Debug.Log($"Before delivery: {totalPackages.Value}");
         totalPackages.Value--;
-        Debug.Log($"After delivery: {totalPackages.Value}");
-        
-        if (totalPackages.Value <= 0)
-        {
-            whoWon.Value = 1; // Set Courier win condition
-            // Don't reset the count, let it stay at 0
+        if (totalPackages.Value <= 0){
+            whoWon.Value = 1;
         }
     }
 
