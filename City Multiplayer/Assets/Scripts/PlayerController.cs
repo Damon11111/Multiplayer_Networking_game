@@ -3,13 +3,6 @@ using Unity.Netcode;
 
 public class PlayerController : NetworkBehaviour
 {
-    private MailboxManager mailboxManager;
-    
-    public override void OnNetworkSpawn()
-    {
-        mailboxManager = FindObjectOfType<MailboxManager>();
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (!IsSpawned) return;
@@ -33,7 +26,7 @@ public class PlayerController : NetworkBehaviour
         // Check for delivery input (e.g., E key)
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (mailboxManager.TryDeliverPackage(transform.position))
+            if (MailboxManager.Instance.TryDeliverPackage(transform.position))
             {
                 // Package delivered successfully
                 // Add visual/audio feedback here

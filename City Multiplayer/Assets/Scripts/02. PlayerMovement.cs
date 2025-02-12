@@ -12,6 +12,7 @@ using TMPro;
 // extension of MonoBehaviour that has functions related to multiplayer
 public class PlayerMovement : NetworkBehaviour
 {
+    [SerializeField] private GameObject courierBox;
     public GameObject courierSpawn;
     public GameObject robberSpawn;
 
@@ -76,6 +77,16 @@ public class PlayerMovement : NetworkBehaviour
             // as client can not spawn objects
             BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation);
         }
+
+        if (Input.GetKeyDown(KeyCode.E) && playerTeam == "Courier")
+        {
+            Debug.Log("E key pressed - attempting delivery");
+            if (MailboxManager.Instance.TryDeliverPackage(transform.position))
+            {
+                Debug.Log("Delivery successful - returning to spawn");
+                setSpawnServerRpc();
+            }
+        }
     }
 
     public override void OnNetworkSpawn()
@@ -89,6 +100,7 @@ public class PlayerMovement : NetworkBehaviour
                 playerRenderer.material.color = Color.blue;
             spawn = courierSpawn.transform;
             playerTeam = "Courier";
+            courierBox.SetActive(true);
             Debug.Log(playerTeam + " Joined The Game");
         }
         else{

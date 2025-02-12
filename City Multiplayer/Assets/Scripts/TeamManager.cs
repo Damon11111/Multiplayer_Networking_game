@@ -11,6 +11,7 @@ public class TeamManager : NetworkBehaviour
     public NetworkVariable<int> robberCount = new NetworkVariable<int>(0);
     public NetworkVariable<int> totalPackages = new NetworkVariable<int>(13);
     public NetworkVariable<int> whoWon = new NetworkVariable<int>(0);
+    [SerializeField] private int setPackages;
 
     [SerializeField] private TMP_Text courierText;
     [SerializeField] private TMP_Text robberText;
@@ -23,6 +24,18 @@ public class TeamManager : NetworkBehaviour
             Destroy(this);
         else
             Instance = this;
+    }
+
+    private void Start()
+    {
+        totalPackages.Value = setPackages;
+        setPackagesServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void setPackagesServerRpc()
+    {
+        totalPackages.Value = setPackages;
     }
 
     [ServerRpc (RequireOwnership = false)]
