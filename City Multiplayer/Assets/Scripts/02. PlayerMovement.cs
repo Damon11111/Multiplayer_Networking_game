@@ -39,10 +39,17 @@ public class PlayerMovement : NetworkBehaviour
     // Add this near your other private variables
     private bool gameEnded = false;
 
+    // Add this with the other private fields at the top
+    private MailboxManager mailboxManager;
+
     // Start is called before the first frame update
     void Start()
     {
         TeamManager.Instance.setTeamServerRpc();
+        if (IsOwner)
+        {
+            mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
+        }
     }
     // Update is called once per frame
     void Update()
@@ -75,6 +82,25 @@ public class PlayerMovement : NetworkBehaviour
             // call the BulletSpawningServerRpc method
             // as client can not spawn objects
             BulletSpawningServerRpc(cannon.transform.position, cannon.transform.rotation);
+        }
+
+        // Add delivery check for E key
+        if (Input.GetKeyDown(KeyCode.E) && playerTeam == "Courier")
+        {
+            Debug.Log("E key pressed - attempting delivery");
+            if (mailboxManager != null)
+            {
+                if (mailboxManager.TryDeliverPackage(transform.position))
+                {
+                    Debug.Log("Delivery successful - returning to spawn");
+                    setSpawnServerRpc();
+                }
+            }
+            else
+            {
+                Debug.LogError("MailboxManager not found!");
+                mailboxManager = GameObject.FindObjectOfType<MailboxManager>();
+            }
         }
     }
 
@@ -171,8 +197,6 @@ public class PlayerMovement : NetworkBehaviour
         // Check if it's a Robber catching a Courier
         if (playerTeam == "Robber" && otherPlayer.playerTeam == "Courier")
         {
-            // Call TeamManager's stolenServerRpc to handle the game over state
-            TeamManager.Instance.stolenServerRpc();
             EndGameServerRpc(false); // Robber wins
         }
     }
@@ -187,7 +211,10 @@ public class PlayerMovement : NetworkBehaviour
     [ClientRpc]
     private void EndGameClientRpc(bool courierWon)
     {
-        // The UI update will now be handled by TeamManager.stolenServerRpc()
-        enabled = false; // Disable player movement
+        string winMessage = courierWon ? "Courier wins!" : "Robber wins!";
+        Debug.Log($"Game Over! {winMessage}");
+        
+        // Disable player movement when game ends
+        enabled = false;
     }
 }
