@@ -1,4 +1,4 @@
-# cs426_Kesler_Semih_Asgn2
+# cs426_Asgn2
 
 Team Memebers: Semih Kesler, Yuqing Wu, Junaid Ali
 
